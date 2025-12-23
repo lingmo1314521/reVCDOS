@@ -1,4 +1,5 @@
-from fastapi import FastAPI, Request
+import os
+from fastapi import FastAPI, Request, HTTPException
 from fastapi.responses import StreamingResponse, FileResponse, Response
 from fastapi.staticfiles import StaticFiles
 from starlette.background import BackgroundTask
@@ -44,9 +45,33 @@ async def vc_sky_proxy(request: Request, path: str):
 async def vc_br_proxy(request: Request, path: str):
     return await _proxy_request(request, request_to_url(request, path, BR_BASE_URL))
 
-# local use
+### local use ###
+
 # app.mount("/vcsky", StaticFiles(directory="vcsky"), name="vcsky") # audio/, data/, models/, anim/
-# app.mount("/vcbr", StaticFiles(directory="vcbr"), name="vcbr") # vc-sky-en-v6.data.br, vc-sky-en-v6.wasm.br, vc-sky-ru-v6.data.br, vc-sky-ru-v6.wasm.br
+# @app.get("/vcbr/{file_path:path}") # vc-sky-en-v6.data.br, vc-sky-en-v6.wasm.br, vc-sky-ru-v6.data.br, vc-sky-ru-v6.wasm.br
+# async def serve_vcbr(file_path: str):
+#     file_location = os.path.join("vcbr", file_path)
+#     if not os.path.isfile(file_location):
+#         raise HTTPException(status_code=404, detail="File not found")
+    
+#     headers = {
+#         "Cross-Origin-Opener-Policy": "same-origin",
+#         "Cross-Origin-Embedder-Policy": "require-corp"
+#     }
+    
+#     media_type = "application/octet-stream"
+#     if file_path.endswith(".wasm.br"):
+#         media_type = "application/wasm"
+#         headers["Content-Encoding"] = "br"
+#     elif file_path.endswith(".data.br"):
+#         media_type = "application/octet-stream"
+#         headers["Content-Encoding"] = "br"
+#     elif file_path.endswith(".wasm"):
+#         media_type = "application/wasm"
+    
+#     return FileResponse(file_location, media_type=media_type, headers=headers)
+
+###############
 
 @app.get("/")
 async def read_index():
