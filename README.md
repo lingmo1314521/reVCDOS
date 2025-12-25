@@ -223,7 +223,7 @@ Do what you want. Not affiliated with Rockstar Games.
 
 **Russian translation:** [GamesVoice](https://www.gamesvoice.ru/)
 
-## Added by the community
+**Added by the community:**
 * PHP Support by [Rohamgames](https://github.com/Rohamgames)
 
 ## Support [me](https://github.com/Lolendor)
